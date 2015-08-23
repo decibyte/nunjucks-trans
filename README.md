@@ -1,2 +1,2 @@
 # nunjucks-trans
-Nunjucks plugin for Jinja and Django style trans and blocktrans
+[Nunjucks](https://github.com/mozilla/nunjucks) plugin for Jinja and Django style `trans` and `blocktrans`.
