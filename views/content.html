@@ -7,3 +7,17 @@
 <p>
     {% trans %}Another {{ other_name }} translation with arguments.{% endtrans %}
 </p>
+<p>
+    {% trans count=1 %}
+        A single horse.
+    {% pluralize %}
+        Many horses!
+    {% endtrans %}
+</p>
+<p>
+    {% trans count=[1,2,3]|length %}
+        A single horse.
+    {% pluralize %}
+        Many horses!
+    {% endtrans %}
+</p>
