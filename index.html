@@ -7,40 +7,22 @@
     </head>
     <body>
         <h1>Nunjucks test</h1>
-        <p id="content">Content here</p>
+        <p id="content-without-args">Content here</p>
+        <p id="content-with-args">Content here</p>
         <script src="./js/nunjucks.js"></script>
+        <script src="./js/nunjucks-trans.js"></script>
         <script>
             function gettext(source) {
                 return '<span style="color: red;">' + source + '</span>';
             }
 
-            function TranslateExtension() {
-                this.tags = ['trans'];
-
-                this.parse = function(parser, nodes, lexer) {
-                    var token = parser.nextToken();
-                    var args = parser.parseSignature(null, true);
-                    parser.advanceAfterBlockEnd(token.value);
-                    var body = parser.parseUntilBlocks('endtrans');
-                    parser.advanceAfterBlockEnd();
-                    var run = args.children.length ? 'runWithArgs' : 'runWithoutArgs';
-                    return new nodes.CallExtension(this, run, args, [body]);
-                }
-
-                this.runWithoutArgs = function(context, body) {
-                    return gettext(body());
-                }
-
-                this.runWithArgs = function(context, args, body) {
-                    return gettext(body());
-                }
-            }
-
             var env = new nunjucks.Environment();
             env.addExtension('TranslateExtension', new TranslateExtension());
             nunjucks.configure({ autoescape: true });
-            var content = env.renderString('This is {% trans %}hest{% endtrans %}');
-            document.getElementById('content').innerHTML = content;
+            var content = env.renderString('This is {% trans %}no args{% endtrans %}');
+            document.getElementById('content-without-args').innerHTML = content;
+            content = env.renderString('This is {% trans hest=2 %}with args{% endtrans %}');
+            document.getElementById('content-with-args').innerHTML = content;
         </script>
     </body>
 </html>
