@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            Nunjucks test
+        </title>
+    </head>
+    <body>
+        <h1>Nunjucks test</h1>
+        <p id="content">Content here</p>
+        <script src="./js/nunjucks.js"></script>
+        <script>
+            function TranslateExtension() {
+                this.tags = ['trans'];
+                this.parse = function(parser, nodes, lexer) {
+                    var token = parser.nextToken();
+                    var args = parser.parseSignature(null, true);
+                    parser.advanceAfterBlockEnd(token.value);
+
+                    return new nodes.CallExtension(this, 'run', args);
+                }
+
+                this.run = function(context, value, second) {
+                    return value + (second ? ' ' + second : '');
+                }
+            }
+
+            var env = new nunjucks.Environment();
+            env.addExtension('TranslateExtension', new TranslateExtension());
+            nunjucks.configure({ autoescape: true });
+            var content = env.renderString('This is <strong>{% trans "hest", what %}</strong>!', { what: 'working' });
+            document.getElementById('content').innerHTML = content;
+        </script>
+    </body>
+</html>
