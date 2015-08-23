@@ -16,6 +16,13 @@ function TranslateExtension() {
     }
 
     this.runWithArgs = function(context, args, body) {
+        // How do I avoid polluting the global context?
+        // <https://github.com/mozilla/nunjucks/issues/497>
+        for (key in args) {
+            if ('__keywords' != key) {
+                context.ctx[key] = args[key];
+            }
+        }
         return gettext(body());
     }
 }

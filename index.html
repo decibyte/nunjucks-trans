@@ -7,8 +7,7 @@
     </head>
     <body>
         <h1>Nunjucks test</h1>
-        <p id="content-without-args">Content here</p>
-        <p id="content-with-args">Content here</p>
+        <section id="content">Content here</section>
         <script src="./js/nunjucks.js"></script>
         <script src="./js/nunjucks-trans.js"></script>
         <script>
@@ -19,10 +18,8 @@
             var env = new nunjucks.Environment();
             env.addExtension('TranslateExtension', new TranslateExtension());
             nunjucks.configure({ autoescape: true });
-            var content = env.renderString('This is {% trans %}no args{% endtrans %}');
-            document.getElementById('content-without-args').innerHTML = content;
-            content = env.renderString('This is {% trans hest=2 %}with args{% endtrans %}');
-            document.getElementById('content-with-args').innerHTML = content;
+            var content = env.render('content.html', { plugin_name: 'nunjucks-trans' });
+            document.getElementById('content').innerHTML = content;
         </script>
     </body>
 </html>

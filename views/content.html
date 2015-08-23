@@ -1,0 +1,9 @@
+<h1>
+    {% trans %}This is a test of the {{ plugin_name }} plugin{% endtrans %}
+</h1>
+<p>
+    {% trans name=plugin_name, other_name="leaking" %}A {{ name }} translation with arguments.{% endtrans %}
+</p>
+<p>
+    {% trans %}Another {{ other_name }} translation with arguments.{% endtrans %}
+</p>
